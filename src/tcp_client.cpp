@@ -1,5 +1,6 @@
 #include "tcp_client.h"
-TCPClient::TCPClient(std::string _ip, std::string _port):
+#include <sys/socket.h>
+TCPClient::TCPClient(std::string _ip, int _port):
     ip_address{_ip},port{_port}
 {
     //
@@ -8,38 +9,21 @@ TCPClient::TCPClient(std::string _ip, std::string _port):
 TCPClient::~TCPClient()
 {
     close(sock);
-    freeaddrinfo(p);
 }
 
 int TCPClient::create_socket(){
+    sock = socket(AF_INET, SOCK_STREAM, 0);
+    server_address.sin_family = AF_INET;
+    server_address.sin_port = htons(port);
+    inet_pton(AF_INET, ip_address.c_str(), &(server_address.sin_addr)); 
 
-    memset(&hints, 0, sizeof(hints));
-    hints.ai_family = AF_UNSPEC;
-    hints.ai_socktype = SOCK_STREAM;
-    hints.ai_flags = AI_PASSIVE;
-
-    int g_addres = getaddrinfo(ip_address.c_str(), port.c_str(), &hints, &p);
-    if(g_addres != 0){
-        std::cerr << gai_strerror(g_addres) << std::endl;
-        return -1;  
-    }
-
-    if(p == NULL){
-        std::cerr << " No addresses found" << std::endl;
-        return -2;
-    }
-
-    //socket() call to create a new socket and return its descriptor
-    sock = socket(p->ai_family, p->ai_socktype, p->ai_protocol);
-    if (sock == -1) {
-        std::cerr << "Error while creating socket" << std::endl;
-        return -3; 
-    }
-
-    //connect() call tries to establish a TCP connection to the 
-    //specified server
-    int connectR = connect(sock, p->ai_addr, p->ai_addrlen);
-    if ( connectR == -1 ) {
+    // if (sock == -1) {
+    //     std::cerr << "Error while creating socket" << std::endl;
+    //     return -3; 
+    // }
+    
+    int connect_status = connect(sock, (struct sockaddr*)&server_address, sizeof(server_address));
+    if ( connect_status == -1 ) {
         close(sock); //unistd.h
         std::cerr << " Error while connecting socket " << std::endl;
         return -4;

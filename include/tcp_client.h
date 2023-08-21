@@ -7,12 +7,12 @@
 #include <string>
 #include <cstring>
 #include <iostream>
-
+#include <arpa/inet.h>
 const auto BUFFER_SIZE = 1024;
 
 class TCPClient{
     public:
-        TCPClient(std::string ip, std::string port);
+        TCPClient(std::string ip, int port);
         ~TCPClient();
 
         int create_socket();
@@ -22,7 +22,9 @@ class TCPClient{
         TCPClient() = delete;
         TCPClient(const TCPClient& t) = delete;
     private:
-        std::string ip_address; std::string port;
-        int sock; addrinfo hints, *p;   // >>> netdb.h    
+        struct sockaddr_in server_address;
+        std::string ip_address; 
+        int port;
+        int sock; 
         char buffer[BUFFER_SIZE];
 };

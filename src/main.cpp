@@ -21,13 +21,14 @@ int main (int argc, char *argv[]) {
         port = argv[2];
     }
 
-    TCPClient client(ip_address, port);
+    TCPClient client(ip_address, stoi(port));
     try{
         int socket_code = client.create_socket();
-        if(socket_code < 0){
+        if(socket_code == 0){
+            //do nothing
         }
         else{
-            throw (3);
+            throw (socket_code);
         }
     }
     catch(int error_code){

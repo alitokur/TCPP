@@ -1,0 +1,36 @@
+# Compiled object files
+*.o
+*.obj
+
+# Compiled dynamic libraries
+*.so
+*.dll
+
+# Executable binaries
+*.exe
+*.out
+
+# CMake build directories
+build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+CMakeDoxyfile.in
+CTestTestfile.cmake
+Makefile
+Testing/
+
+# Compiled GTest files
+*_test
+
+# macOS specific files
+.DS_Store
+
+# Temporary files
+*.tmp
+
+# Custom user configuration
+config.ini
+
+## Cache files
+.cache

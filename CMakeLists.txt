@@ -7,10 +7,10 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Add the executable
-add_executable(tcp_client main.cpp tcp_client.cpp)
+add_executable(client src/main.cpp src/tcp_client.cpp)
 
 # Include directories
-target_include_directories(tcp_client PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+include_directories(tcp_client PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 # Optional: Install target (example)
-install(TARGETS tcp_client DESTINATION bin)
+# install(TARGETS tcp_client DESTINATION bin)

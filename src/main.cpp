@@ -33,8 +33,9 @@ int main (int argc, char *argv[]) {
     catch(int error_code){
         std::cout << "socket not created | reason: " << error_code << 
             std::endl;
+        return 0;
     }
-    std::string login_message = "hey, let me in";
+    std::string login_message = "hey!";
     client.send_message(login_message);
     while(true) {
         if(client.read_message()==-1)
